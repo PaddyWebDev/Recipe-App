@@ -7,45 +7,56 @@ import {
   apikey,
   HeadSection,
   Navbar,
+  Link,
 } from "@/pages/imports";
+import { Suspense } from "react";
 
-export default function Home() {
-  const [RecipeName, SetRecipeName] = useState<any>("");
-  const [ViewData, SetViewData] = useState<any>(null);
+const Home: React.FC = ({ RecipeData }: any) => {
+  const router = useRouter();
+  const [RecipeName, SetRecipeName] = useState<string>("");
+  const [Recipe, SetRecipe] = useState<any>(null);
   const handleSubmit = (event: any) => {
     event.preventDefault();
     SetRecipeName("");
-    GetRecipe();
+    Hlayout()
   };
 
-  const router = useRouter();
+  const Hlayout = async () => {
+    const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=${RecipeName}&apiKey=${apikey}&number=4`)
+    response.data.totalResults === 0 ? alert("Invalid Keyword Blyaad") : ""
+    SetRecipe(response.data.results)
+  }
 
-  const GetRecipe = async () => {
-    const response = await axios.get(
-      `https://api.spoonacular.com/recipes/complexSearch?query=${RecipeName}&apiKey=${apikey}`
-    );
-    console.log(response);
-    SetViewData(response.data.results);
-  };
 
-  const Redirect = (id: BigInteger) => {
-    router.push(`/DisplayRecipeInfo?id=${id}`);
-    console.log(id);
-  };
+
   return (
-    <main className=" bg-slate-700  min-h-screen p-1 ">
+    <main className=" dark:bg-[#000000]  min-h-screen bg-slate-200 ">
       <HeadSection />
       <Navbar />
-      <section className="  mx-auto max-w-2xl mt-24 rounded-md ">
-        <div className=" p-10 dark:bg-slate-900 flex items-center mb-3 justify-center  mx-auto  rounded-lg">
-          <div>
-            <h1 className="text-2xl font-thin mb-3 mx-auto">
-              {" "}
-              Welcome to the Recipe app
-            </h1>
+      <h1 className="my-5 text-3xl ml-2">Welcome to the Smart Chef</h1>
+      <div className="grid mx-5 2xl:xl:grid-cols-3 lg:md:grid-cols-2 sm:grid-cols-1  place-items-center  gap-8  ">
+        <section className=" flex gap-3 flex-col col-span-1  2xl:xl:lg:md:sm:w-[512px]   ">
+          <Suspense fallback="Loading the Data">
+            {RecipeData && RecipeData.map((recipe: any, index: number) => (
+              <Link key={index} href={`/RecipeInfo?RecipeId=${recipe.id}`} className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-2xl hover:bg-gray-100 dark:border-slate-900 dark:bg-slate-900 dark:hover:bg-slate-800">
+                <Suspense fallback="Loading the Image">
+                  <Image className="2xl:xl:lg:md:sm:object-cover object-contain h-44 md:h-auto md:w-48 md:rounded-none w-full rounded-t-lg  " src={recipe.image} width={150} height={1} alt="" />
+                </Suspense>
+                <div className="flex flex-col justify-between p-2 leading-normal">
+                  <h5 className="mb-2 text-xl font-medium tracking-tight text-gray-900 dark:text-white">{recipe.title}</h5>
+                </div>
+              </Link>
+            ))}
+          </Suspense>
+
+        </section>
+
+        <section className="2xl:xl:col-span-2 lg:md:sm:col-span-1 rounded-md  ">
+          <div className="max-w-lg   p-5 dark:bg-slate-900 bg-slate-300 rounded-lg mt-5 mx-auto">
+            <h1 className="text-3xl text-center font-light mb-3" >Search for your desired recipe</h1>
             <form
               onSubmit={handleSubmit}
-              className="space-y-3   sm:space-y-0 sm:flex sm:items-center sm:space-x-2 dark:text-gray-100"
+              className="space-y-3 w-fit mx-auto sm:space-y-0 sm:flex sm:items-center sm:space-x-2 dark:text-gray-100"
             >
               <div className=" ">
                 <input
@@ -54,7 +65,7 @@ export default function Home() {
                   id="recipe"
                   autoComplete="off"
                   autoCorrect="off"
-                  name="recipe"
+                  required
                   value={RecipeName}
                   onChange={(e) => SetRecipeName(e.target.value)}
                   placeholder="Search for Recipe ..."
@@ -66,44 +77,41 @@ export default function Home() {
               >
                 Search
               </button>
+
             </form>
           </div>
-        </div>
-        {/* Displaying the results */}
-      </section>
-      <section className="flex w-10/12  items-center flex-wrap gap-5 mx-auto justify-around">
-        {ViewData &&
-          ViewData.map((item: any, index: any) => (
-            <div key={index}>
-              <div className="flex flex-col rounded-lg shadow-sm bg-white overflow-hidden dark:text-gray-100 dark:bg-gray-800 mb-2">
-                <div className="p-5 grow">
-                  <div className="flex space-x-4">
-                    <Image
-                      width={120}
-                      height={120}
-                      className="flex-none inline-block rounded-md mt-1"
-                      src={item.image}
-                      alt=""
-                    />
-                    <div className="grow text-sm">
-                      <p className="font-semibold text-lg text-blue-600 hover:text-blue-400 dark:text-blue-400 dark:hover:text-blue-300">
-                        {item.title}
-                      </p>
-                      <p className="space-x-2">
-                        <button
-                          onClick={() => Redirect(item.id)}
-                          className="font-medium text-gray-500 hover:text-gray-400"
-                        >
-                          See the Recipe Details
-                        </button>
-                      </p>
-                    </div>
-                  </div>
+
+          {/* results */}
+          <div className="grid 2xl:xl:lg:md:grid-cols-2 gap-5 mt-5 grid-cols-2 sm:grid-cols-1">
+            {Recipe && Recipe.map((recipe: any, index: number) => (
+              <Link key={index} href={`/RecipeInfo?RecipeId=${recipe.id}`} className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-2xl hover:bg-gray-100 dark:border-slate-900 dark:bg-slate-900 dark:hover:bg-slate-800">
+                <Image className="2xl:xl:lg:md:sm:object-cover object-contain h-44 md:h-auto md:w-48 md:rounded-none w-full rounded-t-lg  " src={recipe.image} width={150} height={1} alt="" />
+                <div className="flex flex-col justify-between p-2 leading-normal">
+                  <h5 className="mb-2 text-xl font-medium tracking-tight text-gray-900 dark:text-white">{recipe.title}</h5>
                 </div>
-              </div>
-            </div>
-          ))}
-      </section>
+              </Link>
+            ))}
+          </div>
+
+        </section>
+      </div>
     </main>
   );
+}
+export default Home
+
+export const getServerSideProps = async () => {
+  const config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    headers: {
+      "x-api-key": apikey,
+    },
+  };
+  const result = await axios.get("https://api.spoonacular.com/recipes/random?number=5", config)
+  return {
+    props: {
+      RecipeData: result.data.recipes,
+    }
+  }
 }

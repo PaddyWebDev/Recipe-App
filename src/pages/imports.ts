@@ -4,10 +4,10 @@ import Link from "next/link";
 import React, { useEffect, useState, Fragment } from "react";
 import { useRouter } from "next/router";
 import HeadSection from "./HeadSection";
-const apikey = "640063263d984a2ca21f0802f750c364";
-import Navbar from "./layouts/Navbar";
+const apikey = "Your API Key";
+import Navbar from "./components/Navbar";
 import { Menu, Transition } from "@headlessui/react";
-export {
+export  {
   Fragment,
   Menu,
   Transition,
