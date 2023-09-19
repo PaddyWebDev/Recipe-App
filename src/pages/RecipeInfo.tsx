@@ -1,12 +1,6 @@
-import {
-  React,
-  axios,
-  apikey,
-  Image,
-  Link,
-  HeadSection,
-  Navbar,
-} from "@/pages/imports";
+import React from "react";
+import { axios, HeadSection, Link, Image, apikey, Navbar } from "@/pages/imports"
+
 
 function RecipeInfo({ RecipeData }: any) {
 
@@ -37,20 +31,20 @@ function RecipeInfo({ RecipeData }: any) {
                   {
                     RecipeData.vegan || RecipeData.veryHealthy || RecipeData.vegetarian || RecipeData.glutenFree && (
                       <h3 className="dark:bg-slate-950 bg-zinc-300 py-2 px-3 rounded-lg">
-                      {RecipeData.vegan ? (
-                        "Vegan"
-                      ) : RecipeData.veryHealthy ? (
-                        " Healthy"
-                      ) : RecipeData.vegetarian ? (
-                        "Vegetarian"
-                      ) :
-                        RecipeData.glutenFree ? (
-                          "Gluten Free "
-                        ) : ""}
-                    </h3>
+                        {RecipeData.vegan ? (
+                          "Vegan"
+                        ) : RecipeData.veryHealthy ? (
+                          " Healthy"
+                        ) : RecipeData.vegetarian ? (
+                          "Vegetarian"
+                        ) :
+                          RecipeData.glutenFree ? (
+                            "Gluten Free "
+                          ) : ""}
+                      </h3>
                     )
                   }
-                 
+
 
                   {RecipeData.diets.map((dietType: any, index: any) => (
                     <div key={index}>
@@ -66,7 +60,7 @@ function RecipeInfo({ RecipeData }: any) {
                         className="list-none dark:bg-slate-950 bg-zinc-300  p-2  rounded-lg "
                         key={index}
                       >
-                         {item}
+                        {item}
                       </li>
                     ))}
                   </div>

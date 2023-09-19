@@ -1,5 +1,5 @@
-import { useState, Link, Image } from "../imports";
 import { Refrigerator } from "lucide-react"
+import { Link, Image, useState } from "@/pages/imports"
 
 
 export default function Navbar() {

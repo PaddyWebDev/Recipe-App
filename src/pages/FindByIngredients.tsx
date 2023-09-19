@@ -1,8 +1,8 @@
-import { Link, Image, useState, React, HeadSection, axios, apikey } from "@/pages/imports"
 import { Trash2, ArrowLeft } from "lucide-react"
-
+import { axios, HeadSection, Link, Image, apikey, useState } from "@/pages/imports"
 
 const FindByIngredients = () => {
+
     const [Ingredients, SetIngredients] = useState<Array<string>>([])
     const [DispRecipe, SetDspRecipe] = useState<Array<any>>()
     const [FormData, SetFormData] = useState("")
@@ -45,9 +45,9 @@ const FindByIngredients = () => {
                 </button>
 
 
-                <aside id="default-sidebar" className="fixed top-0 left-0 z-40 w-96 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+                <aside id="default-sidebar" className="fixed top-0 left-0 z-40 md:w-[25vw] w-[70vw] h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
                     <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-                        <div>
+                        <div className=" flex items-center justify-start">
                             <Link href={"/"} className="flex gap-1 hover:text-blue-400"> <ArrowLeft className=" text-2xl" /> Dashboard</Link>
                         </div>
                         <form className=' mt-[15vh] space-y-3 font-medium' onSubmit={HandleIngredients}>
@@ -64,13 +64,13 @@ const FindByIngredients = () => {
                             <div className="ml-3 text-sm font-medium">
                                 The only ingredients we assume {"you've"} are salt & pepper
                             </div>
-                            </div>
+                        </div>
 
 
                         <div className="flex items-center justify-evenly flex-wrap gap-4">
                             {/* Displaying the ingredients */}
                             {Ingredients && Ingredients.map((ingredient: any, index: number) => (
-                                <div key={index} className="flex items-center justify-between px-3 py-2 rounded-2xl bg-slate-200 dark:bg-slate-900 w-[10vw]">
+                                <div key={index} className="flex items-center justify-between px-3 py-2 rounded-2xl bg-slate-200 dark:bg-slate-900 w-72">
                                     <h3 className="ml-1.5">{ingredient}</h3>
                                     <button onClick={() => RemoveIngredient(index)} className="dark:bg-slate-900 bg-slate-300 p-2 rounded-full mr-1.5">
                                         <Trash2 className="dark:hover:text-red-400 hover:text-red-600" />
