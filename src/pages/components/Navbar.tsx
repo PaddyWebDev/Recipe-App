@@ -1,7 +1,7 @@
 import { Refrigerator } from "lucide-react"
-import { Link, Image, useState } from "@/pages/imports"
-
-
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
 export default function Navbar() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
@@ -32,7 +32,7 @@ export default function Navbar() {
                   className="group text-sm font-medium flex items-center space-x-2 px-3 py-2 rounded-lg text-gray-800 border border-transparent hover:text-blue-600 hover:bg-blue-50 active:border-blue-100 dark:text-gray-200 dark:hover:text-white dark:hover:bg-gray-700 dark:active:border-gray-600"
                 >
                   <svg
-                    className="hi-mini hi-home inline-block w-5 h-5"
+                    className="hi-mini hi-users inline-block w-5 h-5 opacity-25 group-hover:opacity-100"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"
@@ -65,7 +65,7 @@ export default function Navbar() {
                   href={"/FindByIngredients"}
                   className="group text-sm font-medium flex items-center space-x-2 px-3 py-2 rounded-lg text-gray-800 border border-transparent hover:text-blue-600 hover:bg-blue-50 active:border-blue-100 dark:text-gray-200 dark:hover:text-white dark:hover:bg-gray-700 dark:active:border-gray-600"
                 >
-                  <Refrigerator />
+                  <Refrigerator className="hi-mini hi-users inline-block w-5 h-5 opacity-25 group-hover:opacity-100" />
                   <span>Recipe Finder</span>
                 </Link>
                 <Link
@@ -112,14 +112,15 @@ export default function Navbar() {
             </div>
           </div>
 
+
           <div className={`lg:hidden ${mobileNavOpen ? "" : "hidden"}`}>
             <nav className="flex flex-col space-y-2 py-4 border-t dark:border-gray-700">
               <Link
                 href={""}
-                className="group text-sm font-semibold flex items-center space-x-2 px-3 py-2 rounded-lg text-blue-600 border border-blue-50 bg-blue-50 dark:text-white dark:bg-gray-700/75 dark:border-transparent"
+                className="group text-sm font-medium flex items-center space-x-2 px-3 py-2 rounded-lg text-gray-800 border border-transparent hover:text-blue-600 hover:bg-blue-50 active:border-blue-100 dark:text-gray-200 dark:hover:text-white dark:hover:bg-gray-700 dark:active:border-gray-600"
               >
                 <svg
-                  className="hi-mini hi-home inline-block w-5 h-5"
+                  className="hi-mini hi-users inline-block w-5 h-5 opacity-25 group-hover:opacity-100"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                   fill="currentColor"
@@ -152,7 +153,7 @@ export default function Navbar() {
                 href={"/FindByIngredients"}
                 className="group text-sm font-medium flex items-center space-x-2 px-3 py-2 rounded-lg text-gray-800 border border-transparent hover:text-blue-600 hover:bg-blue-50 active:border-blue-100 dark:text-gray-200 dark:hover:text-white dark:hover:bg-gray-700 dark:active:border-gray-600"
               >
-                <Refrigerator />
+                <Refrigerator className="hi-mini hi-users inline-block w-5 h-5 opacity-25 group-hover:opacity-100" />
                 <span>Recipe Finder</span>
               </Link>
               <Link

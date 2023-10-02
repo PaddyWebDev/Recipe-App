@@ -1,13 +1,17 @@
+
+import axios from "axios";
+import Image from "next/image";
+import Link from "next/link";
 import React from "react";
-import { axios, HeadSection, Link, Image, apikey, Navbar } from "@/pages/imports"
-
-
-function RecipeInfo({ RecipeData }: any) {
+import HeadSection from "./components/HeadSection";
+import Navbar from "./components/Navbar";
+export default function RecipeInfo({ RecipeData }: any) {
 
   return (
-    <main className=" min-h-screen select-none dark:bg-[#000000] bg-[#fafafad0]">
+    <>
       <HeadSection />
       <Navbar />
+    <main className=" min-h-screen select-none dark:bg-[#000000] bg-[#fafafad0] sm:p-0 p-5 ">
       {/* Main Card */}
       {RecipeData && (
         <div className="flex items-center justify-around mt-12  ">
@@ -132,10 +136,11 @@ function RecipeInfo({ RecipeData }: any) {
       )
       }
     </main >
+    </>
   );
 }
 
-export default RecipeInfo;
+
 
 export async function getServerSideProps({ query }: any) {
   const { RecipeId } = query;
@@ -143,7 +148,7 @@ export async function getServerSideProps({ query }: any) {
     method: "get",
     maxBodyLength: Infinity,
     headers: {
-      "x-api-key": apikey,
+      "x-api-key": process.env.NEXT_PUBLIC_API_KEY,
     },
   };
   const response = await axios.get(

@@ -1,12 +1,14 @@
 
-import { axios, HeadSection, Link, Image, apikey, Navbar, useState, useRouter } from "@/pages/imports"
+import axios from "axios";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import HeadSection from "./components/HeadSection";
 
-import { Suspense } from "react";
 
 const Home: React.FC = ({ RecipeData }: any) => {
-  const apikey = "640063263d984a2ca21f0802f750c364";
 
-  const router = useRouter();
   const [RecipeName, SetRecipeName] = useState<string>("");
   const [Recipe, SetRecipe] = useState<any>(null);
   const handleSubmit = (event: any) => {
@@ -16,7 +18,7 @@ const Home: React.FC = ({ RecipeData }: any) => {
   };
 
   const Hlayout = async () => {
-    const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=${RecipeName}&apiKey=${apikey}&number=4`)
+    const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=${RecipeName}&apiKey=${process.env.NEXT_PUBLIC_API_KEY}&number=4`)
     response.data.totalResults === 0 ? alert("Invalid Keyword Blyaad") : ""
     SetRecipe(response.data.results)
   }
@@ -27,22 +29,19 @@ const Home: React.FC = ({ RecipeData }: any) => {
     <>
       <Navbar />
       <HeadSection />
-      <main className=" dark:bg-[#000000]  min-h-screen bg-slate-200 xl:px-5 px-0">
-        <h1 className="my-5 text-3xl ml-2">Welcome to the Smart Chef</h1>
-        <div className="grid  xl:grid-cols-3 lg:grid-cols-2  grid-cols-1   xl:gap-5 gap-10  ">
-
+      <main className=" dark:bg-[#000000]  min-h-screen bg-slate-200 p-6 ">
+        <h1 className="my-10 text-5xl ml-5 ">Welcome to the Smart Chef</h1>
+        <div className="grid  xl:grid-cols-3 lg:grid-cols-2  grid-cols-1  xl:ml-8  xl:gap-5 gap-10  ">
           <section className=" flex items-center flex-wrap justify-evenly  gap-3 lg:mx-0 mx-auto  col-span-1  w-full ">
-            <Suspense fallback="Loading the Data">
-              {RecipeData && RecipeData.map((recipe: any, index: number) => (
-                <Link key={index} href={`/RecipeInfo?RecipeId=${recipe.id}`} className=" md:mx-0 mx-auto sm:place-items-start place-items-center  grid sm:grid-cols-3 lg:w-full sm:w-[512px] gap-3 w-64 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-slate-900 dark:bg-slate-900 dark:hover:bg-slate-800">
-                  <Image className=" sm:w-64 w-full  object-cover  sm:h-full h-52 md:rounded-none  rounded-t-lg  " src={recipe.image} width={150} height={1} alt="" />
-                  <div className=" flex flex-col sm:text-left text-center  sm:col-span-2 col-span-1 gap-1 items-center  w-full md:rounded-none rounded-b-lg ">
-                    <h5 className="mb-2 mt-3 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{recipe.title}</h5>
-                    <p className="mb-2 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                  </div>
-                </Link>
-              ))}
-            </Suspense>
+            {RecipeData && RecipeData.map((recipe: any, index: number) => (
+              <Link key={index} href={`/RecipeInfo?RecipeId=${recipe.id}`} className=" md:mx-0 mx-auto sm:place-items-start place-items-center  grid sm:grid-cols-3 lg:w-full sm:w-[512px] gap-3 w-64 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-slate-900 dark:bg-slate-900 dark:hover:bg-slate-800">
+                <Image className=" sm:w-64 w-full  object-cover  sm:h-full h-52 md:rounded-none  rounded-t-lg  " src={recipe.image} width={150} height={1} alt="" />
+                <div className=" flex flex-col sm:text-left text-center  sm:col-span-2 col-span-1 gap-1 items-center  w-full md:rounded-none rounded-b-lg ">
+                  <h5 className="mb-2 mt-3 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{recipe.title}</h5>
+                  <p className="mb-2 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                </div>
+              </Link>
+            ))}
 
           </section>
 
@@ -77,7 +76,7 @@ const Home: React.FC = ({ RecipeData }: any) => {
             </div>
 
             {/* results */}
-            <div className="flex items-center flex-wrap justify-evenly  gap-5 mt-[3vh] md:mx-0 mx-auto md:w-auto md:place-items-start place-items-center  ">
+            <div className=" grid xl:grid-cols-2 grid-cols-1 gap-3 mt-[5vh] ">
               {Recipe && Recipe.map((recipe: any, index: number) => (
                 <Link key={index} href={`/RecipeInfo?RecipeId=${recipe.id}`} className=" lg:mx-0 mx-auto sm:place-items-start place-items-center  grid sm:grid-cols-3 lg:w-full sm:w-[512px] gap-3 w-64 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-slate-900 dark:bg-slate-900 dark:hover:bg-slate-800">
                   <Image className=" sm:w-64 w-full  object-cover  sm:h-full h-52 md:rounded-none  rounded-t-lg  " src={recipe.image} width={150} height={1} alt="" />
@@ -102,7 +101,7 @@ export const getServerSideProps = async () => {
     method: "get",
     maxBodyLength: Infinity,
     headers: {
-      "x-api-key": apikey,
+      "x-api-key": process.env.NEXT_PUBLIC_API_KEY,
     },
   };
   const result = await axios.get("https://api.spoonacular.com/recipes/random?number=6", config)

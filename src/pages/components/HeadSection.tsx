@@ -1,5 +1,5 @@
 import React from "react";
-function HeadSection() {
+export default function HeadSection() {
   return (
     <>
       <meta charSet="UTF-8" />
@@ -9,4 +9,3 @@ function HeadSection() {
   );
 }
 
-export default HeadSection;
